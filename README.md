@@ -1,13 +1,13 @@
 # Gas and trends
 
 ## Motivation
-Gas price has gone crazy. With swarms of users coming onto the ethereum network (to yield farm), gas price has gone up from 20 - 50 gwei to ~200 - 250 gwei at the time of writing (13th Aug 2020). The aim of this application is to give ethereum end users an easy and intuitive way to visualise how much they've spent on gas in the past 
+To better visualise gas spendings post 🍠
 
 ## API Usage
-This app utilises the etherscan dev api for transaction info, and an API for gas price history (TBD)
+Etherscan public api (no spamming)
 
 ## Usage
-This app will likely be deployed on a F1 micro vm on gcp, the ip address will be published here once deployed.
+Either head to the deployed address (0.0.0.0) or clone the entire repo, and run `npm i && npm start`, then head to localhost:1234
 
 ## Future
-I'd like to maintain and improve this app long term. I'll likely move the app to something more scalable if there are people actually using it, most likely netlify with cloud functions.
+More functionalities on the graph? More scalable deployment? Give me ideas!
