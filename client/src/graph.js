@@ -1,5 +1,5 @@
 import React from 'react'
-import { LineChart, Line } from 'recharts'
+import { LineChart, Line, Tooltip } from 'recharts'
 
 const Graph = ({ data }) => {
   if (data && !data.error) {
@@ -10,6 +10,7 @@ const Graph = ({ data }) => {
       <h1  className="text-red-400 text-2xl">highest: {data.highest} Gwei</h1>
       </div>
       <LineChart width={600} height={500} data={data.data}>
+        <Tooltip />
         <Line type="monotone" dataKey="gasPrice" stroke="#FB8180"/>
       </LineChart>
     </div>)

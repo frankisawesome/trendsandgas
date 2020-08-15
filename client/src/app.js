@@ -62,7 +62,7 @@ const App = () => {
       <div className='flex-1 w-full flex flex-col items-center'>
         <img src={gaspng} height='150' width='150' className='py-10' />
         <h1 className='text-4xl font-semibold pt-10 text-red-400'>
-          How much gas price did I pay in the past{' '}
+          How much did I pay in gas in the past{' '}
           <Tooltip title='click me!' arrow>
             <button
               className='focus:outline-none hover:font-medium'
