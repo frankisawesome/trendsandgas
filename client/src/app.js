@@ -82,13 +82,14 @@ const App = () => {
               className='bg-red-100 appearance-none border-2 border-red-200 rounded w-full py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-red-400 shadow-2xl'
               value={address}
               onChange={(e) => setAddress(e.target.value)}
+              placeholder="your address goes here"
             />
             <div>
               <button
                 onClick={() => getData()}
                 className='bg-red-400 shadow-xl text-white rounded px-4 py-2 focus:outline-none focus:bg-red-200 hover:bg-white hover:border-red-400 hover:text-red-400 mt-10 mx-8'
               >
-                gaaaas?
+                grrrrrr
               </button>
               <button
                 onClick={() => connect()}

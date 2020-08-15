@@ -1,11 +1,12 @@
 require('dotenv').config()
-const fetch = require('node-fetch')
 const express = require('express')
+const cors = require('cors')
 const app = express()
 const apiRouter = require('./api')
 
-app.use(express.static('dist'))
+app.use(cors())
 
+app.use(express.static('dist'))
 app.use('/api', apiRouter)
 
 app.listen(process.env.PORT, () => {
