@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Graph from './graph';
 import './index.css';
 import gaspng from './gas.png';
@@ -7,12 +7,17 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Tooltip from '@material-ui/core/Tooltip';
 import { useAnchorEl } from './hooks';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+const API_ENDPOINT = 'http://localhost:3001/api'
 
 const App = () => {
   const [address, setAddress] = useState();
-  const [data, setData] = useState();
   const [filter, setFilter] = useState('day');
   const [anchorEl, handleClick, handleClose] = useAnchorEl();
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [data, setData] = useState()
 
   const select = (filter) => {
     setFilter(filter);
@@ -28,24 +33,36 @@ const App = () => {
   };
 
   const getData = () => {
-    setData(dummy);
+    setLoading(true)
+    fetch(`${API_ENDPOINT}/gas/${address}?filter=${filter}`)
+      .then((res) => res.json())
+      .then((res) => {
+        setLoading(false)
+        setData(res)
+      })
+      .catch((e) => {
+        setLoading(false)
+        setError(true)
+        setTimeout(() => {
+          setError(false)
+        }, 3000)
+      })
   };
 
-  const dummy = [
-    { gas_price: 79 },
-    { gas_price: 100 },
-    { gas_price: 90 },
-    { gas_price: 137 },
-    { gas_price: 168 },
-    { gas_price: 201 },
-  ];
+  //refetch on filter change
+  useEffect(() => {
+    if (data && address) {
+      getData()
+    }
+  }, [filter])
 
   return (
+    <>
     <div className=' flex flex-col items-center min-h-screen'>
       <div className='flex-1 w-full flex flex-col items-center'>
         <img src={gaspng} height='150' width='150' className='py-10' />
         <h1 className='text-4xl font-semibold pt-10 text-red-400'>
-          How much gas did I pay in the past{' '}
+          How much gas price did I pay in the past{' '}
           <Tooltip title='click me!' arrow>
             <button
               className='focus:outline-none hover:font-medium'
@@ -76,7 +93,7 @@ const App = () => {
             month
           </MenuItem>
         </Menu>
-        <Slide direction='up' in={!data} mountOnEnter unmountOnExit>
+        <Slide direction='up' in={!data} mountOnEnter unmountOnExit timeout={500}>
           <div className='max-w-xl w-full md:w-3/5 flex flex-col items-center mt-8'>
             <input
               className='bg-red-100 appearance-none border-2 border-red-200 rounded w-full py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-red-400 shadow-2xl'
@@ -88,6 +105,7 @@ const App = () => {
               <button
                 onClick={() => getData()}
                 className='bg-red-400 shadow-xl text-white rounded px-4 py-2 focus:outline-none focus:bg-red-200 hover:bg-white hover:border-red-400 hover:text-red-400 mt-10 mx-8'
+                disabled={!address}
               >
                 grrrrrr
               </button>
@@ -100,7 +118,13 @@ const App = () => {
             </div>
           </div>
         </Slide>
-        <Graph data={data} setData={setData} />
+        {
+          loading 
+            ? <div className="w-full pt-8 flex justify-center text-red-400"><CircularProgress color="inherit" size={50} /></div>
+            : error
+              ? <h1>Error fetching your gas spendings :( 🍠</h1>
+              : data && <Graph data={data} setData={setData} />
+        }
       </div>
       <footer className='flex items-center justify-center flex-shrink-0 pb-4'>
         <a
@@ -111,6 +135,10 @@ const App = () => {
         </a>
       </footer>
     </div>
+    <footer className='flex items-center justify-center text-red-400 font-bold'>
+        <p>fuck 🍠</p>
+  </footer>
+  </>
   );
 };
 
