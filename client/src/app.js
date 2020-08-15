@@ -9,7 +9,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { useAnchorEl } from './hooks';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const API_ENDPOINT = 'http://localhost:3001/api'
+const API_ENDPOINT = 'http://35.247.177.71:3001/api'
 
 const App = () => {
   const [address, setAddress] = useState();
