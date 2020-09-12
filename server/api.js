@@ -3,7 +3,8 @@ const axios = require('axios')
 const { getBlockInterval, processResults } = require('./services')
 
 router.get('/', (req, res) => {
-  res.send('Gas trends api')
+  res.status(404)
+  res.send({ error: true, message: 'Nothing to see here'})
 })
 
 router.get('/gas/:address', async (req, res) => {
