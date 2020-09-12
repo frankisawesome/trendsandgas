@@ -1,35 +1,17 @@
 import React, { useState } from 'react';
 import './index.css';
 import gasIcon from './resources/gas.png'
-import CustomSelect from './components/select'
-
-//Metric selection row that takes the top one third of the app component
-const MetricsSelect = (props) => {
-  const metrics1 = ['Your gas prices paid', 'Network gas prices']
-  const metrics2 = ['Ethereum price', 'Top dex 24 hour volume']
-  const dateRange = ['week', 'month', '3 months']
-  return (<div className='xs:flex-wrap md:flex w-full justify-around'>
-    <div>
-      <h1 className="font-medium text-3xl text-red-500">Metric One</h1>
-      <CustomSelect options={metrics1} state={props.metricOne} setState={props.setMetricOne} />
-    </div>
-    <div>
-      <h1 className="font-medium text-3xl text-red-500">Date Range</h1>
-      <CustomSelect options={dateRange} state={props.dateRange} setState={props.setDateRange} />
-    </div>
-    <div>
-      <h1 className="font-medium text-3xl text-red-500">Metric Two</h1>
-      <CustomSelect options={metrics2} state={props.metricTwo} setState={props.setMetricTwo} />
-    </div>
-  </div>)
-}
+import MetricsSelect from './components/select'
 
 //App handles a couple things here: layout with a bunch of flex containers, states for the drop downs, also uses a custom hook to handle lazy loading data as soon as dropdowns are selected
 const App = () => {
+  //user states
   const [metricOne, setMetricOne] = useState('Your gas prices paid')
   const [metricTwo, setMetricTwo] = useState('Ethereum price')
   const [dateRange, setDateRange] = useState('week');
   const [address, setAddress] = useState();
+
+  //api data states
 
   //connects to metamask (and other supported browser wallets)
   const connect = () => {
@@ -70,8 +52,9 @@ const App = () => {
             disabled={!address}
           >
             Graph
-            </button>
+          </button>
           {/* body row 5 -> graph */}
+          {}
 
 
         </div>

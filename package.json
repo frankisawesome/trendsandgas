@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "parcel build client/index.html",
     "server": "nodemon server/index.js",
     "client": "parcel client/index.html",
     "start": "concurrently \"npm run server\" \"npm run client\""

@@ -1,9 +1,27 @@
 const axios = require('axios')
 
-module.exports = { getBlockInterval, processResults }
+module.exports = { getEpochInterval, getBlockInterval, processResults }
 
 //multiplier applied on gwei for transactions
 const GWEI_MULTIPLIER = 1000000000
+
+//get epoch from and to from a filter string
+function getEpochInterval(filter) {
+  const to = new Date()
+  let from = new Date()
+  if (filter === 'week') {
+    from.setDate(from.getDate() - 7)
+  } else if (filter === 'month') {
+    from.setDate(from.getDate() - 30)
+  } else if (filter === '3 months') {
+    from.setDate(from.getDate() - 90)
+  } else {
+    throw { error: 'true', message: 'incorrect filter'}
+  }
+
+  //milliseconds to seconds
+  return [parseInt(from / 1000), parseInt(to / 1000)]
+}
 
 //get block numbers for intervals (day/week/month)
 async function getBlockInterval(filter) {
