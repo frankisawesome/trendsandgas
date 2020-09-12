@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 require('dotenv').config()
 
-//get api endpoint based on node env
+//use local backend in development environment -> use env variable in prod
 const API_ENDPOINT = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:3001/api' : process.env.API_ENDPOINT
 
 //take some of the messy logic of material ui menu away
