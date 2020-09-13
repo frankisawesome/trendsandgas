@@ -1,6 +1,6 @@
 const axios = require('axios')
 
-module.exports = { getEpochInterval, getBlockInterval, processResults }
+module.exports = { getEpochInterval, getBlockInterval, processResults, processCoingecko }
 
 //multiplier applied on gwei for transactions
 const GWEI_MULTIPLIER = 1000000000
@@ -19,6 +19,7 @@ function getEpochInterval(filter) {
     throw { error: 'true', message: 'incorrect filter'}
   }
 
+  console.log([from, to])
   //milliseconds to seconds
   return [parseInt(from / 1000), parseInt(to / 1000)]
 }
@@ -70,7 +71,7 @@ function processResults(results) {
       highest = gasPrice
     }
     //wrap the gas price in an object to suit recharts data shape requirement
-    data.push({ gasPrice })
+    data.push({ gasPrice, timestamp: parseInt(transaction.timeStamp) })
   })
   //return the data with the correct multiplier applied
   return {
@@ -79,4 +80,20 @@ function processResults(results) {
     lowest: lowest,
     highest: highest
   }
+}
+
+//refactors coingecko data -> mainly refactoring the array of individual datapoints into objects of shape { timestamp: 12345, metric2: 111 }
+function processCoingecko (data) {
+  const res = {}
+  Object.keys(data).forEach((key) => {
+    const dataset = data[key].map((datapoint) => {
+      return {
+        timestamp: parseInt(datapoint[0] / 1000) || 0,
+        metric2: datapoint[1] || 0
+      }
+    })
+    res[key] = dataset
+  })
+
+  return res
 }

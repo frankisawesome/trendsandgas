@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const axios = require('axios')
-const { getBlockInterval, processResults, getEpochInterval } = require('./services')
+const { getBlockInterval, processResults, getEpochInterval, processCoingecko} = require('./services')
 
 //historical gas prices for a particular ethereum address
 router.get('/gas/:address', async (req, res) => {
@@ -21,7 +21,7 @@ router.get('/eth/stats', async (req, res) => {
   try {
     const [from, to] = getEpochInterval(req.query.filter)
     const data = await axios.get(`https://api.coingecko.com/api/v3/coins/ethereum/market_chart/range?vs_currency=usd&from=${from}&to=${to}`)
-    res.send(data.data)
+    res.send(processCoingecko(data.data))
   } catch (e) {
     console.log(`[ERROR] /api/gas/:address error at ${new Date().toLocaleString()}`)
     console.error(e)

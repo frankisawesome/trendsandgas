@@ -19,16 +19,16 @@ const MetricsSelect = (props) => {
   const metrics2 = ['Ethereum price', 'Ethereum market cap', 'Ethereum volume']
   const dateRange = ['week', 'month', '3 months']
   return (<div className='xs:flex-wrap md:flex w-full justify-around'>
-    <div>
+    <div className="flex flex-col items-center">
       <h1 className="font-medium text-3xl text-red-500">Metric One</h1>
       <CustomSelect options={metrics1} state={props.metricOne} setState={props.setMetricOne} />
     </div>
-    <div>
-      <h1 className="font-medium text-3xl text-red-500">Date Range</h1>
+    <div className="flex flex-col items-center">
+      <h1 className="font-medium text-3xl" style={{ color: '#087e8b'}} >Date Range</h1>
       <CustomSelect options={dateRange} state={props.dateRange} setState={props.setDateRange} />
     </div>
-    <div>
-      <h1 className="font-medium text-3xl text-red-500">Metric Two</h1>
+    <div  gclassName="flex flex-col items-center">
+      <h1 className="font-medium text-3xl text-green-400">Metric Two</h1>
       <CustomSelect options={metrics2} state={props.metricTwo} setState={props.setMetricTwo} />
     </div>
   </div>)

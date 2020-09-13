@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.css';
 import gasIcon from './resources/gas.png'
 import MetricsSelect from './components/select'
+import Graph from './components/graph';
 
 //App handles a couple things here: layout with a bunch of flex containers, states for the drop downs, also uses a custom hook to handle lazy loading data as soon as dropdowns are selected
 const App = () => {
@@ -9,9 +10,17 @@ const App = () => {
   const [metricOne, setMetricOne] = useState('Your gas prices paid')
   const [metricTwo, setMetricTwo] = useState('Ethereum price')
   const [dateRange, setDateRange] = useState('week');
-  const [address, setAddress] = useState();
+  const [address, setAddress] = useState(null);
 
-  //api data states
+  //draw graph
+  const [graph, setGraph] = useState(false)
+
+  //clean up address state
+  useEffect(() => {
+    if (metricOne === 'Network gas prices') {
+      setAddress(null)
+    }
+  }, [metricOne])
 
   //connects to metamask (and other supported browser wallets)
   const connect = () => {
@@ -47,14 +56,14 @@ const App = () => {
             placeholder="your ethereum address (click to connect)"
           />}
           <button
-            onClick={() => getData()}
+            onClick={() => setGraph(prev => !prev)}
             className='bg-red-400 shadow-xl text-white rounded px-4 py-2 focus:outline-none focus:bg-red-200 hover:bg-white hover:border-red-400 hover:text-red-400 my-4'
-            disabled={!address}
           >
-            Graph
+            {graph ? 'Start new graph' : 'Visualise data'}
           </button>
+
           {/* body row 5 -> graph */}
-          {}
+          {graph && <Graph { ...{ address, metricTwo, dateRange } }/>}
 
 
         </div>

@@ -18,7 +18,7 @@ export const useGasPerAddress = (address, filter) => {
       .then((res) => res.json())
       .then((res) => {
         setLoading(false)
-        setData(res)
+        setData(res.data)
       })
       .catch((e) => {
         //clear error in 3 seconds
@@ -39,14 +39,14 @@ export const useGasPerAddress = (address, filter) => {
 }
 
 //use ethereum statistics for graphing (price market cap or 24h volume)
-export const useEthStatistics = (type) => {
+export const useEthStatistics = (dateRange) => {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState()
 
   const getData = () => {
     setLoading(true)
-    fetch(`${API_ENDPOINT}/eth/stats?filter=${filter}`)
+    fetch(`${API_ENDPOINT}/eth/stats?filter=${dateRange}`)
       .then((res) => res.json())
       .then((res) => {
         setLoading(false)
@@ -62,10 +62,9 @@ export const useEthStatistics = (type) => {
       })
   };
 
-   //refetch on filter/address change
    useEffect(() => {
     getData()
-  }, [type])
+  }, [dateRange])
 
   return [data, loading, error]
 }
