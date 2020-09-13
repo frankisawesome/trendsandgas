@@ -18,7 +18,7 @@ export const useGasPerAddress = (address, filter) => {
       .then((res) => res.json())
       .then((res) => {
         setLoading(false)
-        setData(res.data)
+        setData(res)
       })
       .catch((e) => {
         //clear error in 3 seconds
