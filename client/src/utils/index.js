@@ -56,6 +56,8 @@ export function processDataSets(data1, data2) {
 
     return result
   })
-
+  //drop first 0 entry
+  results.shift()
+  
   return results
 }
