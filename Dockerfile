@@ -7,18 +7,22 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package*.json ./
 
+# install dependencies
 RUN npm install
-# If you are building your code for production
-# RUN npm ci --only=production
 
 COPY . .
 
+# build front end
+RUN npm run build
+
 EXPOSE 3001
 
-ENV API_ENDPOINT=$slkdfj
-ENV PORT=3001
-ENV ETHERSCAN_KEY=2CTSQ245YKKA55TZBR12S5XHP4UGM9TF9W
+# take etherscan api key and prod api url as build time argument 
+ARG E=default
+ARG A=default
 
-RUN npm run build
+ENV API_ENDPOINT=$A
+ENV PORT=3001
+ENV ETHERSCAN_KEY=$E
 
 CMD [ "node", "server/index.js" ]
