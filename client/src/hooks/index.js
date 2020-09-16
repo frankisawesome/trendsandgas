@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 //use local backend in development environment -> use env variable in prod
-const API_ENDPOINT = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:3001/api' : (process.env.API_ENDPOINT + '/api')
+const API_ENDPOINT = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:3001/api' : '/api'
 
 //fetches gas price paid on a transactional basis based on address and date rage
 export const useGasPerAddress = (address, filter) => {
