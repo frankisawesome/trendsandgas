@@ -7,6 +7,6 @@ workflows:
       - gcp-gcr/build-and-push-image:
           image: app
           registry-url: gcr.io
-          extra_build_args: --build-arg E=${ETHERSCAN_KEY} --build-arg A=${API_ENDPOINT} --build-arg R=${127.0.0.1}
+          extra_build_args: --build-arg E=${ETHERSCAN_KEY} --build-arg A=${API_ENDPOINT} --build-arg R=127.0.0.1
 
           
