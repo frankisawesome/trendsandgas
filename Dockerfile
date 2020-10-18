@@ -8,7 +8,10 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # install dependencies
+RUN apt-get update
+RUN apt-get install redis-server -y
 RUN npm install
+
 
 COPY . .
 
@@ -17,12 +20,21 @@ RUN npm run build
 
 EXPOSE 3001
 
-# take etherscan api key and prod api url as build time argument 
+# build arguments
+## etherscan api key
 ARG E=default
+## production api ip
 ARG A=default
+## redis instance ip
+ARG R=default
+## mongo db ip
+ARG M=default
 
+# cast build arguments as environment variables
 ENV API_ENDPOINT=$A
 ENV PORT=3001
 ENV ETHERSCAN_KEY=$E
+ENV REDIS_URL=$R
+ENV MONGO_URL=$M
 
-CMD [ "node", "server/index.js" ]
+CMD [ "npm", "run", "server" ]

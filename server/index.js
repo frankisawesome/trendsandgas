@@ -9,21 +9,26 @@ const apiRouter = require('./api')
 const mongoClient = require('mongodb').MongoClient
 const db = new mongoClient(process.env.MONGO_URL, { useNewUrlParser: true })
 
+//redis cache
+const redis = require('redis')
+const redisClient = redis.createClient({
+    host: process.env.REDIS_URL
+})
+redisClient.on('error', (err) => {
+    console.log(`[ERROR] COR BACKEND - Redis Error: ${err}`)
+})
+
 app.use(cors())
+
+//attach mongo and redis client to the req object
+app.use((req, res, next) => {
+  req.redis = redisClient
+  req.mongo = db
+  next()
+})
 
 app.use(express.static('dist'))
 app.use('/api', apiRouter)
-
-//got pinged by bots on root and php-myadmin (?) during the short time I had this deployed - hopefully returning 404 can stop them
-app.get('/', (req, res) => {
-  res.status(404)
-  res.send({ error: true, message: 'Nothing to see here'})
-})
-
-app.get('/php-myadmin', (req, res) => {
-  res.status(404)
-  res.send({ error: true, message: 'Nothing to see here'})
-})
 
 app.listen(process.env.PORT, () => {
   console.log('[INFO] [EXPRESS ROOT] Gas trends api listening on port ' + process.env.PORT)
