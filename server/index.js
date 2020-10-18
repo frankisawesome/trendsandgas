@@ -7,7 +7,18 @@ const apiRouter = require('./api')
 
 //mongo db client
 const mongoClient = require('mongodb').MongoClient
-const db = new mongoClient(process.env.MONGO_URL, { useNewUrlParser: true })
+
+let c
+
+mongoClient.connect(process.env.MONGO_URL, { useUnifiedTopology: true }, function(err, client) {
+  if (!err) {
+    c = client
+    console.log("[INFO] MongoDB connection successfull");
+  } else {
+    console.log("[ERROR] Error connecting to mongodb: " + err)
+  }
+  
+});
 
 //redis cache
 const redis = require('redis')
@@ -23,7 +34,7 @@ app.use(cors())
 //attach mongo and redis client to the req object
 app.use((req, res, next) => {
   req.redis = redisClient
-  req.mongo = db
+  req.mongo = c
   next()
 })
 
