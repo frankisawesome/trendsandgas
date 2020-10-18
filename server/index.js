@@ -5,6 +5,10 @@ const cors = require('cors')
 const app = express()
 const apiRouter = require('./api')
 
+//mongo db client
+const mongoClient = require('mongodb').MongoClient
+const db = new mongoClient(process.env.MONGO_URL, { useNewUrlParser: true })
+
 app.use(cors())
 
 app.use(express.static('dist'))
