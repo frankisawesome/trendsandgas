@@ -1,7 +1,7 @@
-//redis layer middlewares
-const redisMiddleware1 = (req, res, next) => {
+//redis layer middlewares (caching)
+const redisMiddlewareGas = (req, res, next) => {
   const address = req.params.address
-  req.redis.get(`gas/${address}`, (err, result) => {
+  req.redis.get(`gas/${address}-${req.query.filter}`, (err, result) => {
     //log errors with redis client
     if (err) {
       console.log(`[ERROR] Redis get error: ${err}`)
@@ -19,7 +19,7 @@ const redisMiddleware1 = (req, res, next) => {
   })
 }
 
-const redisMiddleware2 = (req, res, next) => {
+const redisMiddlewareStats = (req, res, next) => {
   req.redis.get(`eth/stats-${req.query.filter}`, (err, result) => {
     //log errors with redis client
     if (err) {
@@ -38,4 +38,4 @@ const redisMiddleware2 = (req, res, next) => {
   })
 }
 
-module.exports = { redisMiddleware1, redisMiddleware2 }
+module.exports = { redisMiddlewareGas, redisMiddlewareStats }
