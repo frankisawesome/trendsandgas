@@ -19,7 +19,8 @@ router.get('/gas/:address', redisMiddlewareGas, mongoMiddlewareGas, async (req, 
     req.redis.setex(key, 600, JSON.stringify(result))
     req.mongo.db('cab432').collection('results').insertOne({
       id: key,
-      data: result
+      data: result,
+      timestamp: Date.now()
     })
 
     res.send(result)
@@ -43,7 +44,8 @@ router.get('/eth/stats', redisMiddlewareStats, mongoMiddlewareStats, async (req,
     req.redis.setex(key, 600, JSON.stringify(result))
     req.mongo.db('cab432').collection('results').insertOne({
       id: key,
-      data: result
+      data: result,
+      timestamp: Date.now()
     })
 
     res.send(result)
